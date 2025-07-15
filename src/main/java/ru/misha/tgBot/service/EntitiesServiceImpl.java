@@ -2,6 +2,7 @@ package ru.misha.tgBot.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.misha.tgBot.model.Client;
 import ru.misha.tgBot.model.ClientOrder;
 import ru.misha.tgBot.model.OrderProduct;
 import ru.misha.tgBot.model.Product;
@@ -64,6 +65,16 @@ public class EntitiesServiceImpl implements EntitiesService {
                 .limit(limit)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Client> searchClientsByName(String name) {
+        return clientRepo.findByFullNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Product> searchProductsByName(String name) {
+        return productRepo.findByNameContainingIgnoreCase(name);
     }
 }
 

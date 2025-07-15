@@ -30,8 +30,9 @@ public class ClientRestController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Client>> search(@RequestParam String name) {
-        return ResponseEntity.ok(service.searchClientsByName(name));
+    public ResponseEntity<List<Client>> search(@RequestParam("name") String name) {
+        List<Client> result = service.searchClientsByName(name);
+        return ResponseEntity.ok(result);
     }
 }
 
