@@ -1,5 +1,6 @@
 package ru.misha.tgBot.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.misha.tgBot.model.Client;
 import ru.misha.tgBot.model.ClientOrder;
@@ -28,10 +29,9 @@ public class ClientRestController {
         return service.getClientProducts(id);
     }
 
-    // доп. задание
     @GetMapping("/search")
-    public List<Client> search(@RequestParam String name) {
-        return service.searchClientsByName(name);
+    public ResponseEntity<List<Client>> search(@RequestParam String name) {
+        return ResponseEntity.ok(service.searchClientsByName(name));
     }
 }
 

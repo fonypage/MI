@@ -45,11 +45,12 @@ public class EntitiesServiceImpl implements EntitiesService {
 
     @Override
     public List<Product> getClientProducts(Long clientId) {
-        return opRepo.findByClientOrder_Client_Id(clientId)
-                .stream()
+        return opRepo.findByClientOrder_Client_Id(clientId).stream()
                 .map(OrderProduct::getProduct)
+                .distinct()
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<Product> getTopPopularProducts(Integer limit) {

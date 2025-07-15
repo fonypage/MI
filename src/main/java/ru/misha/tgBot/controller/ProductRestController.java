@@ -1,5 +1,6 @@
 package ru.misha.tgBot.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,18 +21,22 @@ public class ProductRestController {
     }
 
     @GetMapping("/search")
-    public List<Product> byCategory(@RequestParam Long categoryId) {
-        return service.getProductsByCategoryId(categoryId);
+    public ResponseEntity<List<Product>> search(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String name) {
+        if (name != null) {
+            return ResponseEntity.ok(service.searchProductsByName(name));
+        }
+        if (categoryId != null) {
+            return ResponseEntity.ok(service.getProductsByCategoryId(categoryId));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/popular")
-    public List<Product> popular(@RequestParam(defaultValue = "5") Integer limit) {
-        return service.getTopPopularProducts(limit);
-    }
-
-    // доп. задание
-    @GetMapping("/searchByName")
-    public List<Product> byName(@RequestParam String name) {
-        return service.searchProductsByName(name);
+    public ResponseEntity<List<Product>> popular(
+            @RequestParam(defaultValue = "5") int limit) {
+        return ResponseEntity.ok(service.getTopPopularProducts(limit));
     }
 }
+
