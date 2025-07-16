@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.misha.tgBot.model.Client;
 import ru.misha.tgBot.model.ClientOrder;
 import ru.misha.tgBot.model.Product;
-import ru.misha.tgBot.service.EntitiesService;
+import ru.misha.tgBot.service.ClientService;
 
 import java.util.List;
 
@@ -13,26 +13,25 @@ import java.util.List;
 @RequestMapping("/rest/clients")
 public class ClientRestController {
 
-    private final EntitiesService service;
+    private final ClientService clientService;
 
-    public ClientRestController(EntitiesService service) {
-        this.service = service;
+    public ClientRestController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @GetMapping("/{id}/orders")
     public List<ClientOrder> orders(@PathVariable Long id) {
-        return service.getClientOrders(id);
+        return clientService.getClientOrders(id);
     }
 
     @GetMapping("/{id}/products")
     public List<Product> products(@PathVariable Long id) {
-        return service.getClientProducts(id);
+        return clientService.getClientProducts(id);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<Client>> search(@RequestParam("name") String name) {
-        List<Client> result = service.searchClientsByName(name);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(clientService.searchClientsByName(name));
     }
 }
 
