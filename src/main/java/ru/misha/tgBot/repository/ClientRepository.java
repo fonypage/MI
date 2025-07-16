@@ -4,6 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ru.misha.tgBot.model.Client;
 
+import java.util.List;
+
 @RepositoryRestResource(collectionResourceRel="clients", path="clients")
-public interface ClientRepository extends JpaRepository<Client, Long> {}
+public interface ClientRepository extends JpaRepository<Client, Long> {
+    Client findByExternalId(Integer externalId);
+    List<Client> findByFullNameContainingIgnoreCase(String name);
+}
 
