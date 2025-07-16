@@ -8,6 +8,7 @@ import ru.misha.tgBot.model.Product;
 import ru.misha.tgBot.repository.ClientOrderRepository;
 import ru.misha.tgBot.repository.ClientRepository;
 import ru.misha.tgBot.repository.OrderProductRepository;
+import ru.misha.tgBot.repository.ProductRepository;
 
 import java.util.List;
 
@@ -18,13 +19,16 @@ public class ClientServiceImpl implements ClientService {
     private final ClientOrderRepository orderRepo;
     private final OrderProductRepository opRepo;
     private final ClientRepository clientRepo;
+    private final ProductRepository productRepo;
 
     public ClientServiceImpl(ClientOrderRepository orderRepo,
                              OrderProductRepository opRepo,
-                             ClientRepository clientRepo) {
+                             ClientRepository clientRepo,
+                             ProductRepository productRepo) {
         this.orderRepo  = orderRepo;
         this.opRepo     = opRepo;
         this.clientRepo = clientRepo;
+        this.productRepo = productRepo;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<Product> getClientProducts(Long clientId) {
-        return opRepo.findDistinctProductsByClientId(clientId);
+        return productRepo.findDistinctProductsByClientId(clientId);
     }
 
     @Override

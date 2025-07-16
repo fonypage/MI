@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getTopPopularProducts(Integer limit) {
         int size = (limit != null ? limit : 5);
-        return productRepo.findTopPopularProducts(PageRequest.of(0, size));
+        return opRepo.findTopPopularProducts(PageRequest.of(0, size));
     }
 
     @Override
