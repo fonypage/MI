@@ -1,8 +1,8 @@
 package ru.misha.tgBot.repository;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ru.misha.tgBot.model.Product;
 
@@ -14,10 +14,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory_Id(Long categoryId);
     List<Product> findByNameContainingIgnoreCase(String name);
     @Query("""
-      SELECT op.product
+      SELECT DISTINCT op.product
         FROM OrderProduct op
-       GROUP BY op.product
-       ORDER BY SUM(op.countProduct) DESC
+       WHERE op.clientOrder.client.id = :clientId
     """)
-    List<Product> findTopPopularProducts(Pageable pageable);
+    List<Product> findDistinctProductsByClientId(@Param("clientId") Long clientId);
 }

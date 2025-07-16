@@ -1,8 +1,8 @@
 package ru.misha.tgBot.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import ru.misha.tgBot.model.OrderProduct;
 import ru.misha.tgBot.model.Product;
@@ -13,9 +13,10 @@ import java.util.List;
 public interface OrderProductRepository extends JpaRepository<OrderProduct, Long> {
     List<OrderProduct> findByClientOrder_Client_Id(Long clientId);
     @Query("""
-      SELECT DISTINCT op.product
+      SELECT op.product
         FROM OrderProduct op
-       WHERE op.clientOrder.client.id = :clientId
+       GROUP BY op.product
+       ORDER BY SUM(op.countProduct) DESC
     """)
-    List<Product> findDistinctProductsByClientId(@Param("clientId") Long clientId);
+    List<Product> findTopPopularProducts(Pageable pageable);
 }
