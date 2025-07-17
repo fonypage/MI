@@ -27,4 +27,8 @@ public interface ChatOrderService {
     OrderSummary closeOrder(ClientOrder order);
 
     OrderSummary getOrderSummary(ClientOrder order);
+
+    ClientOrder findOrderById(Long orderId);
+
+    void saveFeedback(String message, boolean positive);
 }

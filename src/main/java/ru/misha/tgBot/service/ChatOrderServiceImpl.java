@@ -17,18 +17,21 @@ public class ChatOrderServiceImpl implements ChatOrderService {
     private final CategoryRepository categoryRepo;
     private final ProductRepository productRepo;
     private final OrderProductRepository orderProductRepo;
+    private final FeedbackRepository feedbackRepository;
 
     public ChatOrderServiceImpl(
             ClientRepository clientRepo,
             ClientOrderRepository orderRepo,
             CategoryRepository categoryRepo,
             ProductRepository productRepo,
-            OrderProductRepository orderProductRepo) {
+            OrderProductRepository orderProductRepo,
+            FeedbackRepository feedbackRepository) {
         this.clientRepo = clientRepo;
         this.orderRepo = orderRepo;
         this.categoryRepo = categoryRepo;
         this.productRepo = productRepo;
         this.orderProductRepo = orderProductRepo;
+        this.feedbackRepository = feedbackRepository;
     }
 
     @Override
@@ -109,5 +112,17 @@ public class ChatOrderServiceImpl implements ChatOrderService {
 
         // Возвращаем сводку
         return new OrderSummary(items, total);
+    }
+
+    @Override
+    public ClientOrder findOrderById(Long orderId) {
+        return orderRepo.findById(orderId).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void saveFeedback(String message, boolean positive) {
+        Feedback fb = new Feedback(message, positive);
+        feedbackRepository.save(fb);
     }
 }
