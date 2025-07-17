@@ -34,7 +34,7 @@ class ProductRepositoryTest {
 
         // клиент
         Client client = new Client();
-        client.setExternalId(42L); client.setFullName("T"); client.setAddress("A"); client.setPhoneNumber("000"); clientRepo.save(client);
+        client.setExternalId(42L); client.setFullName("T"); client.setAddress("A"); client.setPhoneNumber("000"); client.setChatId(123456L); client.setExternalId(123456L); clientRepo.save(client);
 
         // заказ
         ClientOrder order = new ClientOrder();

@@ -20,6 +20,10 @@ public class Client {
     @Column(nullable=false, length=400)
     private String address;
 
+    @Column(unique = true, nullable = false)
+    private Long chatId;
+
+
     public Long getId() {
         return id;
     }
@@ -58,6 +62,13 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 }
 

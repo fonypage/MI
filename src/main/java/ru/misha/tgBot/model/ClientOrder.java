@@ -2,6 +2,8 @@ package ru.misha.tgBot.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class ClientOrder {
     @Id
@@ -17,6 +19,9 @@ public class ClientOrder {
 
     @Column(nullable=false, precision=2)
     private Double total;
+
+    @OneToMany(mappedBy = "clientOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderProduct> orderProducts;
 
     public Long getId() {
         return id;
@@ -48,5 +53,12 @@ public class ClientOrder {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 }

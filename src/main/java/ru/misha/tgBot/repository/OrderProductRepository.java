@@ -4,6 +4,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import ru.misha.tgBot.model.ClientOrder;
 import ru.misha.tgBot.model.OrderProduct;
 import ru.misha.tgBot.model.Product;
 
@@ -19,4 +20,6 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct, Long
        ORDER BY SUM(op.countProduct) DESC
     """)
     List<Product> findTopPopularProducts(Pageable pageable);
+    List<OrderProduct> findByClientOrder_Id(Long orderId);
+    List<OrderProduct> findByClientOrder(ClientOrder order);
 }
